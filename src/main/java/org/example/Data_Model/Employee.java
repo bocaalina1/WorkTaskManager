@@ -26,4 +26,12 @@ public class Employee {
             this.name = name;
         else System.out.println("Name is null");
     }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "idEmployee=" + idEmployee +
+                ", name='" + name + '\'' +
+                "} \n";
+    }
 }

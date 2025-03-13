@@ -1,17 +1,27 @@
 package org.example;
 
+import org.example.Business_Logic.TaskManagement;
+import org.example.Data_Model.*;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        TaskManagement taskManagement = new TaskManagement();
+
+        taskManagement.addEmployee(101,"Alina");
+        taskManagement.addEmployee(102,"Maria");
+
+        Task task1 = new SimpleTask(1,20,2);
+        Task task2 = new SimpleTask(2,8,14);
+
+        taskManagement.assignWorkToEmployee(101,task1);
+        taskManagement.assignWorkToEmployee(102,task2);
+        taskManagement.assignWorkToEmployee(101,task2);
+        taskManagement.assignWorkToEmployee(101,task1);
+
+        taskManagement.modifyTaskStatus(101,1);
+        System.out.println(taskManagement.toString());
     }
 }
