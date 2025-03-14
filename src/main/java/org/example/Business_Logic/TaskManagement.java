@@ -10,16 +10,26 @@ import java.util.List;
 
 public class TaskManagement {
     private Map<Employee, List<Task>> mapTaskEmployee;
+    private ArrayList<Employee> employeeList;
+    private ArrayList<Task> taskList;
 
     public TaskManagement() {
+
         mapTaskEmployee = new HashMap<Employee, List<Task>>();
+        employeeList = new ArrayList<>();
+        taskList = new ArrayList<>();
     }
 
     public void addEmployee(int idEmployee, String name)
     {
+        employeeList.add(new Employee(idEmployee, name));
         mapTaskEmployee.putIfAbsent(new Employee(idEmployee, name), new ArrayList<Task>());
     }
 
+//    public void addTask(int idTask, String Type)
+//    {
+//        taskList.add();
+//    }
     public Task searchTask(int idEmployee, int idTask)
     {
         Employee employee = getEmployeeById(idEmployee);
@@ -55,8 +65,6 @@ public class TaskManagement {
         Employee employee = getEmployeeById(idEmployee);
         if (employee == null) return -1;
 
-
-
         List<Task> tasks = mapTaskEmployee.get(employee);
         if (tasks == null) return -1;
 
@@ -76,7 +84,14 @@ public class TaskManagement {
             System.out.println("Employee not found for employee: " + idEmployee);
             return;
         }
-        mapTaskEmployee.get(employee).add(task);
+        Task aux  = searchTask(idEmployee,task.getIdTask());
+        if(aux == null)
+        {
+            mapTaskEmployee.get(employee).add(task);
+        }
+        else System.out.println("Task " + task.getIdTask() + " already assigned to employee: " + idEmployee);
+
+
     }
     public Employee getEmployeeById(int idEmployee) {
         for (Employee employee : mapTaskEmployee.keySet()) {
@@ -85,6 +100,17 @@ public class TaskManagement {
             }
         }
         return null;
+    }
+//look for it
+    public List<Task> getTaskListForEmployee(Employee employee) {
+        return mapTaskEmployee.getOrDefault(employee, new ArrayList<>());
+    }
+    public ArrayList<Task> getTaskList() {
+        return taskList;
+    }
+
+    public ArrayList<Employee> getEmployeeList() {
+        return employeeList;
     }
 
     @Override

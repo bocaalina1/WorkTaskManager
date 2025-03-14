@@ -9,7 +9,7 @@ import java.util.Map;
 public class ComplexTask  extends Task {
     ArrayList<Task> tasks;
 
-    ComplexTask(int idTask) {
+    public ComplexTask(int idTask) {
         super(idTask, "Uncompleted");
         tasks = new ArrayList<>();
 
