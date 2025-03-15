@@ -55,6 +55,14 @@ public class ComplexTask  extends Task implements Serializable {
         return  super.toString()+ "\n ComplexTask : \n" +
                  tasks;
     }
+    public String subtaskString()
+        {
+        StringBuffer sb = new StringBuffer();
+        for (Task task : tasks) {
+            sb.append(task.getIdTask()).append(", ");
+        }
+        return sb.toString();
+    }
 
     @Override
     public String getTypeTask() {

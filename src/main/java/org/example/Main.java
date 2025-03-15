@@ -19,20 +19,17 @@ public class Main {
         TaskManagement taskManagement = new TaskManagement();
 
         Map<Employee, List<Task>> restoreMap = SerializationOperations.getMapMemory();
-        ArrayList<Employee> restoreEmployees = SerializationOperations.getEmployeeFromMemory();
         ArrayList<Task> restoreTasks = SerializationOperations.getTaskFromMemory();
 
         if(restoreMap != null) {
             taskManagement.setMapTaskEmployee(restoreMap);
         }
-        if(restoreEmployees != null) {
-            taskManagement.setEmployeeList(restoreEmployees);
-        }
+
         if(restoreTasks != null) {
             taskManagement.setTaskList(restoreTasks);
         }
 
-        if(taskManagement.getEmployeeList().isEmpty()) {
+        if(taskManagement.getMapTaskEmployee().isEmpty()) {
             taskManagement.addEmployee(101,"Alina");
             taskManagement.addEmployee(102,"Maria");
 

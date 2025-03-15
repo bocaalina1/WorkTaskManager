@@ -12,10 +12,9 @@ import org.example.Business_Logic.*;
 
 public class SerializationOperations {
 
-    public static void saveEverything(Map<Employee, List<Task>> map,ArrayList<Employee> employees,ArrayList<Task> tasks)
+    public static void saveEverything(Map<Employee, List<Task>> map,ArrayList<Task> tasks)
     {
         saveMap(map);
-        saveEmployeeInMemory(employees);
         saveTaskInMemory(tasks);
     }
     public static void saveMap(Map<Employee, List<Task>> map) {
@@ -42,29 +41,6 @@ public class SerializationOperations {
         }
     }
 
-    public static void saveEmployeeInMemory(ArrayList<Employee> employees) {
-        try {
-            FileOutputStream fileOutputStream = new FileOutputStream("Employee.dat");
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            objectOutputStream.writeObject(employees);
-            objectOutputStream.flush();
-            objectOutputStream.close();
-        } catch (IOException e) {
-            System.out.println("Could not save employee in memory");
-        }
-    }
-    public static ArrayList<Employee> getEmployeeFromMemory() {
-        try{
-            FileInputStream fileInputStream = new FileInputStream("Employee.dat");
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            ArrayList<Employee> array = (ArrayList<Employee>) objectInputStream.readObject();
-            objectInputStream.close();
-            return array;
-        }catch (IOException | ClassNotFoundException e){
-            System.out.println("Could not restore employee in app");
-            return null;
-        }
-    }
     public static void saveTaskInMemory(ArrayList<Task> tasks) {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream("Tasks.dat");

@@ -39,7 +39,7 @@ public class EmployeeView  extends JFrame {
     private void populateTextArea() {
         StringBuilder text = new StringBuilder();
 
-        for(Employee e: taskManagement.getEmployeeList())
+        for(Employee e: taskManagement.getMapTaskEmployee().keySet())
         {
             int workDuration = taskManagement.calculateEmployeeWorkDuration(e.getIdEmployee());
             List<Task> task =taskManagement.getTaskListForEmployee(e);

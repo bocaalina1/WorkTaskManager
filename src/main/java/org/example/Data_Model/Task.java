@@ -6,10 +6,12 @@ public abstract class Task implements Serializable {
     private static final long serialVersionUID = 1L;
     private int idTask;
     private String statusTask;
+    private boolean isAssigned;
 
     public Task(int idTask, String statusTask) {
         this.idTask = idTask;
         this.statusTask = statusTask;
+        this.isAssigned = false;
     }
 
     public int getIdTask() {
@@ -26,6 +28,16 @@ public abstract class Task implements Serializable {
         this.statusTask = statusTask;
     }
 
+    public boolean isAssigned() {
+        return isAssigned;
+    }
+    public String isAssignedString() {
+        return isAssigned ? "Assigned" : "Unassigned";
+    }
+
+    public void setAssigned(boolean assigned) {
+        isAssigned = assigned;
+    }
 
     @Override
     public String toString() {

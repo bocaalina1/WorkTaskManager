@@ -5,13 +5,14 @@ import org.example.Data_Access.SerializationOperations;
 import org.example.Data_Model.ComplexTask;
 import org.example.Data_Model.Employee;
 import org.example.Data_Model.SimpleTask;
-import org.example.Data_Model.ComplexTask;
 import org.example.Data_Model.Task;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Controller {
     private TaskManagement taskManagement;
@@ -25,11 +26,11 @@ public class Controller {
 
         view.bAssignedTask().addActionListener(e-> assignTaskToEmployee());
         view.getAddEmployeeButton().addActionListener(e->addEmployeeDialog());
-        view.getAddTaskButton().addActionListener(e-> addTaskDialog());
+        view.getAddSimpleTaskButton().addActionListener(e-> addSimpleTaskDialog());
         view.getViewStatisticsButton().addActionListener(e->viewStatistics());
         view.getViewEmployeeButton().addActionListener(e-> new EmployeeView(taskManagement).setVisible(true));
-        view.getSaveDataButton().addActionListener(e-> SerializationOperations.saveEverything(taskManagement.getMapTaskEmployee(),taskManagement.getEmployeeList(),taskManagement.getTaskList()));
-
+        view.getSaveDataButton().addActionListener(e-> SerializationOperations.saveEverything(taskManagement.getMapTaskEmployee(),taskManagement.getTaskList()));
+        view.getAddComplexTaskButton().addActionListener(e->showAddComplexTaskDialog());
         view.getTaskTable().addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 modifyStatusByClick();
@@ -39,15 +40,23 @@ public class Controller {
     }
     private void populateTable() {
         DefaultTableModel employeeModel = (DefaultTableModel) view.getEmployeeTable().getModel();
-        for(Employee emp : taskManagement.getEmployeeList())
+        employeeModel.setRowCount(0);
+        for(Employee e : taskManagement.getMapTaskEmployee().keySet())
         {
-            employeeModel.addRow(new Object[]{emp.getName()});
+            employeeModel.addRow(new Object[]{e.getIdEmployee(), e.getName()});
         }
 
         DefaultTableModel taskModel = (DefaultTableModel) view.getTaskTable().getModel();
+        taskModel.setRowCount(0);
         for(Task task: taskManagement.getTaskList())
         {
-            taskModel.addRow(new Object[]{task.getIdTask(), task.getStatusTask(), task.getTypeTask()});
+            taskModel.addRow(new Object[]{
+                            task.getIdTask(),
+                            task.getStatusTask(),
+                            task.getTypeTask(),
+                            task.isAssignedString(),
+                            (task instanceof ComplexTask) ? ((ComplexTask) task).subtaskString() : "-"
+                    });
         }
     }
     private void assignTaskToEmployee() {
@@ -59,10 +68,16 @@ public class Controller {
             JOptionPane.showMessageDialog(null, "Please select an employee and a task");
             return;
         }
-        Employee employee = taskManagement.getEmployeeList().get(employeeRow);
+        int id = Integer.parseInt(view.getEmployeeTable().getValueAt(employeeRow, 0).toString());
+        Employee employee= taskManagement.getEmployeeById(id);
+        if(employee == null)
+        {
+            view.showMessage("NO EMPLOYEE FOUND");
+        }
         Task task = taskManagement.getTaskList().get(taskRow);
 
-        taskManagement.assignWorkToEmployee(employee.getIdEmployee(), task);
+        taskManagement.assignWorkToEmployee(id, task);
+        SerializationOperations.saveMap(taskManagement.getMapTaskEmployee());
         view.showMessage("TASK ASSIGNED TO EMPLOYEE " +employee.getName());
     }
     private void modifyStatusByClick()
@@ -79,7 +94,18 @@ public class Controller {
             view.showMessage("The task is not assigned");
             return;
         }
-        taskManagement.modifyTaskStatus(employee.getIdEmployee(), task.getIdTask());
+        Task employeeTask = taskManagement.searchTask(employee.getIdEmployee(), idTask);
+        if(employeeTask == null)
+        {
+            view.showMessage("Task found in map, but not in this employee list");
+            return;
+        }
+        taskManagement.swappStatus(employeeTask);
+        task.setStatusTask(employeeTask.getStatusTask());
+
+        SerializationOperations.saveTaskInMemory(taskManagement.getTaskList());
+        SerializationOperations.saveMap(taskManagement.getMapTaskEmployee());
+
         updateTaskTable();
    }
     private void addEmployeeDialog(){
@@ -100,33 +126,29 @@ public class Controller {
             view.showMessage("EMPLOYEE ADDED");
 
             DefaultTableModel employeeModel = (DefaultTableModel) view.getEmployeeTable().getModel();
-            employeeModel.addRow(new Object[]{name});
+            employeeModel.addRow(new Object[]{id, name});
+
+            SerializationOperations.saveMap(taskManagement.getMapTaskEmployee());
+
         }catch(NumberFormatException e)
         {
             view.showMessage("Invalid input");
         }
     }
-    public void addTaskDialog(){
-        String[] input = view.showAddTaskDialog();
+    public void addSimpleTaskDialog(){
+        String[] input = view.showAddSimpleTaskDialog();
         if(input == null)
             return;
         try{
             int id = Integer.parseInt(input[0]);
-            String type = input[1].trim();
-
+            int startHour = Integer.parseInt(input[1]);
+            int endHour = Integer.parseInt(input[2]);
             Task task;
-            if("Simple Task".equals(type))
-            {
-                int startHour = Integer.parseInt(input[2]);
-                int endHour = Integer.parseInt(input[3]);
-                task = new SimpleTask(id, startHour, endHour);
-            }
-            else{
-                task = new ComplexTask(id);
-            }
-
+            task = new SimpleTask(id, startHour, endHour);
 
             taskManagement.addTask(task);
+            SerializationOperations.saveTaskInMemory(taskManagement.getTaskList());
+
             view.showMessage("Task ADDED");
 
             updateTaskTable();
@@ -142,11 +164,20 @@ public class Controller {
     public void updateTaskTable() {
         DefaultTableModel taskModel = (DefaultTableModel) view.getTaskTable().getModel();
         taskModel.setRowCount(0);
-        for(Task task : taskManagement.getTaskList())
-        {
-            taskModel.addRow(new Object[]{task.getIdTask(),
+        for(Task task : taskManagement.getTaskList()) {
+            taskModel.addRow(new Object[]{
+                    task.getIdTask(),
                     task.getStatusTask(),
-                    (task instanceof SimpleTask)? "Simple":"Complex"});
+                    (task instanceof SimpleTask) ? "Simple" : "Complex",
+                    task.isAssignedString(),
+                    (task instanceof ComplexTask) ? ((ComplexTask) task).subtaskString() : "-"
+            });
         }
+        SerializationOperations.saveTaskInMemory(taskManagement.getTaskList());
+    }
+    private void showAddComplexTaskDialog()
+    {
+        AddComplexTaskDialog dialog = new AddComplexTaskDialog(view,taskManagement,this);
+        dialog.setVisible(true);
     }
 }

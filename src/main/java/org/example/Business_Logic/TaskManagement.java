@@ -12,18 +12,16 @@ import java.util.List;
 public class TaskManagement implements Serializable {
     private static final long serialVersionUID = 1L;
     private Map<Employee, List<Task>> mapTaskEmployee;
-    private ArrayList<Employee> employeeList;
+    //private ArrayList<Employee> employeeList;
     private ArrayList<Task> taskList;
 
     public TaskManagement() {
-
         mapTaskEmployee = new HashMap<Employee, List<Task>>();
-        employeeList = new ArrayList<>();
         taskList = new ArrayList<>();
     }
 
     public int searchEmployee(int idEmployee, String name) {
-        for (Employee e: employeeList)
+        for (Employee e : mapTaskEmployee.keySet())
         {
             if(e.getIdEmployee() == idEmployee)
                 return -1;
@@ -38,14 +36,28 @@ public class TaskManagement implements Serializable {
             System.out.println("The id already exist" + idEmployee);
         }
         else {
-            employeeList.add(new Employee(idEmployee, name));
             mapTaskEmployee.putIfAbsent(new Employee(idEmployee, name), new ArrayList<Task>());
         }
     }
 
     public void addTask(Task task)
     {
+        boolean doesTheTaskExist = searchAlreadyExistingTasks(task);
+        if(doesTheTaskExist)
+        {
+            System.out.println("The taks with id " +task.getIdTask() + " already exists");
+            return;
+        }
         taskList.add(task);
+    }
+    public boolean searchAlreadyExistingTasks(Task task)
+    {
+        for(Task t : taskList)
+        {
+            if(t.getIdTask() == task.getIdTask())
+                return true;
+        }
+        return false;
     }
     public Task searchTask(int idEmployee, int idTask)
     {
@@ -114,6 +126,7 @@ public class TaskManagement implements Serializable {
         if(aux == null)
         {
             mapTaskEmployee.get(employee).add(task);
+            task.setAssigned(true);
         }
         else System.out.println("Task " + task.getIdTask() + " already assigned to employee: " + idEmployee);
 
@@ -135,24 +148,35 @@ public class TaskManagement implements Serializable {
         return taskList;
     }
 
-    public ArrayList<Employee> getEmployeeList() {
-        return employeeList;
-    }
-
     public Map<Employee, List<Task>> getMapTaskEmployee() {
         return mapTaskEmployee;
     }
 
     public void setMapTaskEmployee(Map<Employee, List<Task>> mapTaskEmployee) {
+        this.mapTaskEmployee.clear();
         this.mapTaskEmployee = mapTaskEmployee;
     }
-    public void setEmployeeList(ArrayList<Employee> employeeList) {
-        this.employeeList = employeeList;
-    }
+
     public void setTaskList(ArrayList<Task> taskList) {
-        this.taskList = taskList;
+        this.taskList.clear();
+        this.taskList.addAll(taskList);
     }
 
+    public Task getTaskById(int id)
+    {
+        for(Task task : taskList)
+            if(task.getIdTask() == id)
+                return task;
+        return null;
+    }
+    public void addComplexTask(int id, List<Task> taskList) {
+        ComplexTask complexTask = new ComplexTask(id);
+        for(Task task : taskList)
+        {
+            complexTask.addTask(task);
+        }
+        addTask(complexTask);
+    }
     @Override
     public String toString() {
         return "TaskManagement{" +
