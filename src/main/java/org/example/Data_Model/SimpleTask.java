@@ -25,4 +25,9 @@ public class SimpleTask extends Task {
                 ", endHour=" + endHour +
                 '}';
     }
+
+    @Override
+    public String getTypeTask() {
+        return "Simple";
+    }
 }

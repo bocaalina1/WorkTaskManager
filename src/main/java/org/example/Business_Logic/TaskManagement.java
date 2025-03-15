@@ -20,16 +20,31 @@ public class TaskManagement {
         taskList = new ArrayList<>();
     }
 
+    public int searchEmployee(int idEmployee, String name) {
+        for (Employee e: employeeList)
+        {
+            if(e.getIdEmployee() == idEmployee)
+                return -1;
+        }
+        return 0;
+    }
     public void addEmployee(int idEmployee, String name)
     {
-        employeeList.add(new Employee(idEmployee, name));
-        mapTaskEmployee.putIfAbsent(new Employee(idEmployee, name), new ArrayList<Task>());
+        int doesItExist = searchEmployee(idEmployee, name);
+        if(doesItExist == -1)
+        {
+            System.out.println("The id already exist" + idEmployee);
+        }
+        else {
+            employeeList.add(new Employee(idEmployee, name));
+            mapTaskEmployee.putIfAbsent(new Employee(idEmployee, name), new ArrayList<Task>());
+        }
     }
 
-//    public void addTask(int idTask, String Type)
-//    {
-//        taskList.add();
-//    }
+    public void addTask(Task task)
+    {
+        taskList.add(task);
+    }
     public Task searchTask(int idEmployee, int idTask)
     {
         Employee employee = getEmployeeById(idEmployee);
@@ -101,7 +116,7 @@ public class TaskManagement {
         }
         return null;
     }
-//look for it
+
     public List<Task> getTaskListForEmployee(Employee employee) {
         return mapTaskEmployee.getOrDefault(employee, new ArrayList<>());
     }
@@ -112,6 +127,7 @@ public class TaskManagement {
     public ArrayList<Employee> getEmployeeList() {
         return employeeList;
     }
+
 
     @Override
     public String toString() {

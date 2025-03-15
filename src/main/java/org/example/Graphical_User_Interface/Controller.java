@@ -36,7 +36,7 @@ public class Controller {
         DefaultTableModel taskModel = (DefaultTableModel) view.getTaskTable().getModel();
         for(Task task: taskManagement.getTaskList())
         {
-            taskModel.addRow(new Object[]{task.getIdTask(), task.getStatusTask()});
+            taskModel.addRow(new Object[]{task.getIdTask(), task.getStatusTask(), task.getTypeTask()});
         }
     }
     private void assignTaskToEmployee() {
@@ -104,7 +104,7 @@ public class Controller {
             }
 
 
-            taskManagement.getTaskList().add(task);
+            taskManagement.addTask(task);
             view.showMessage("Task ADDED");
 
             updateTaskTable();

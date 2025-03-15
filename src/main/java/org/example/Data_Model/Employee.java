@@ -26,6 +26,15 @@ public class Employee {
             this.name = name;
         else System.out.println("Name is null");
     }
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass()!=obj.getClass()) return false;
+        Employee employee = (Employee) obj;
+        return idEmployee == employee.idEmployee;
+    }
+    public int hashCode() {
+        return Integer.hashCode(idEmployee);
+    }
 
     @Override
     public String toString() {

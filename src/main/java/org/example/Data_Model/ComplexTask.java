@@ -58,4 +58,9 @@ public class ComplexTask  extends Task {
        }
        return sb.toString();
     }
+
+    @Override
+    public String getTypeTask() {
+        return "Complex";
+    }
 }

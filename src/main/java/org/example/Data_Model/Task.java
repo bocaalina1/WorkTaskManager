@@ -23,6 +23,7 @@ public abstract class Task {
         this.statusTask = statusTask;
     }
 
+
     @Override
     public String toString() {
         return "Task{" +
@@ -30,6 +31,6 @@ public abstract class Task {
                 ", statusTask='" + statusTask + '\'' +
                 '}';
     }
-
+    public abstract String getTypeTask();
     public abstract int estimateDuration();
 }
