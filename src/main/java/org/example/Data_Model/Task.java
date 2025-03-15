@@ -1,6 +1,9 @@
 package org.example.Data_Model;
 
-public abstract class Task {
+import java.io.Serializable;
+
+public abstract class Task implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int idTask;
     private String statusTask;
 
@@ -26,10 +29,10 @@ public abstract class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "Task: " +
                 "idTask=" + idTask +
                 ", statusTask='" + statusTask + '\'' +
-                '}';
+                ' ';
     }
     public abstract String getTypeTask();
     public abstract int estimateDuration();

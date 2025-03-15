@@ -1,6 +1,9 @@
 package org.example.Data_Model;
 
-public class SimpleTask extends Task {
+import java.io.Serializable;
+
+public class SimpleTask extends Task implements Serializable{
+    private static final long serialVersionUID = 1L;
     private int startHour;
     private int endHour;
 
@@ -13,17 +16,17 @@ public class SimpleTask extends Task {
     @Override
     public int estimateDuration() {
         if (endHour < startHour) {
-            return  24 - (endHour - startHour);
+            return  24 + endHour - startHour;
         }
         return endHour - startHour;
     }
 
     @Override
     public String toString() {
-        return "SimpleTask{" +
-                "startHour=" + startHour +
+        return super.toString() + "\n" +
+                " startHour=" + startHour +
                 ", endHour=" + endHour +
-                '}';
+                '\n';
     }
 
     @Override

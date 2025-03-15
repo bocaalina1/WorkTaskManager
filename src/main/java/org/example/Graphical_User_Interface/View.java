@@ -7,6 +7,7 @@ public class View extends JFrame {
     private JButton bAddEmployee;
     private JButton bAddTask;
     private JButton bAssignedTask;
+    private JButton bSaveData;
     //private JTextArea textArea = new JTextArea();
     private JButton bViewEmployee;
     private JButton bViewStatistics;
@@ -38,6 +39,7 @@ public class View extends JFrame {
       bAddEmployee = new JButton("Add Employee");
       bViewEmployee = new JButton("View Employee");
       bViewStatistics = new JButton("View Statistics");
+      bSaveData = new JButton("Save Changes");
 
       JPanel tablePanel = new JPanel(new GridLayout(1,2));
       tablePanel.setBackground(Color.CYAN);
@@ -51,7 +53,10 @@ public class View extends JFrame {
       buttonPanel.add(bViewEmployee);
       buttonPanel.add(bViewStatistics);
 
+      JPanel buttonPanel2 = new JPanel(new GridLayout(2,2));
+      buttonPanel2.add(bSaveData);
 
+      add(buttonPanel2, BorderLayout.NORTH);
       add(tablePanel, BorderLayout.CENTER);
       add(buttonPanel, BorderLayout.SOUTH);
 
@@ -79,6 +84,9 @@ public class View extends JFrame {
     }
     public JButton getViewStatisticsButton() {
         return bViewStatistics;
+    }
+    public JButton getSaveDataButton() {
+        return bSaveData;
     }
 
     public String[] showAddEmployeeDialog()

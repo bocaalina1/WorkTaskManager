@@ -1,12 +1,14 @@
 package org.example.Data_Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
-public class ComplexTask  extends Task {
+public class ComplexTask  extends Task implements Serializable {
+    private static final long serialVersionUID = 1L;
     ArrayList<Task> tasks;
 
     public ComplexTask(int idTask) {
@@ -50,13 +52,8 @@ public class ComplexTask  extends Task {
 
     @Override
     public String toString() {
-       StringBuilder sb = new StringBuilder();
-       sb.append("Task ID: " + getIdTask() + "\n").append("Status "+ getStatusTask() + "\n").append("\n");
-
-       for (Task task : tasks) {
-           sb.append(task.toString());
-       }
-       return sb.toString();
+        return  super.toString()+ "\n ComplexTask : \n" +
+                 tasks;
     }
 
     @Override

@@ -3,12 +3,14 @@ package org.example.Business_Logic;
 
 import org.example.Data_Model.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
-public class TaskManagement {
+public class TaskManagement implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Map<Employee, List<Task>> mapTaskEmployee;
     private ArrayList<Employee> employeeList;
     private ArrayList<Task> taskList;
@@ -76,6 +78,15 @@ public class TaskManagement {
         else System.out.println("Task " + taskID + " not found for employee: " + idEmployee);
 
     }
+    public Employee findEmployeeByTask(int idTask) {
+        for(Map.Entry<Employee, List<Task>> entry: mapTaskEmployee.entrySet())
+        {
+            for(Task task: entry.getValue())
+                if(task.getIdTask() == idTask)
+                    return entry.getKey();
+        }
+        return null;
+    }
     public int calculateEmployeeWorkDuration(int idEmployee) {
         Employee employee = getEmployeeById(idEmployee);
         if (employee == null) return -1;
@@ -128,6 +139,19 @@ public class TaskManagement {
         return employeeList;
     }
 
+    public Map<Employee, List<Task>> getMapTaskEmployee() {
+        return mapTaskEmployee;
+    }
+
+    public void setMapTaskEmployee(Map<Employee, List<Task>> mapTaskEmployee) {
+        this.mapTaskEmployee = mapTaskEmployee;
+    }
+    public void setEmployeeList(ArrayList<Employee> employeeList) {
+        this.employeeList = employeeList;
+    }
+    public void setTaskList(ArrayList<Task> taskList) {
+        this.taskList = taskList;
+    }
 
     @Override
     public String toString() {

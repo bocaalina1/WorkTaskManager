@@ -1,6 +1,7 @@
 package org.example.Graphical_User_Interface;
 
 import org.example.Business_Logic.TaskManagement;
+import org.example.Data_Access.SerializationOperations;
 import org.example.Data_Model.ComplexTask;
 import org.example.Data_Model.Employee;
 import org.example.Data_Model.SimpleTask;
@@ -9,6 +10,8 @@ import org.example.Data_Model.Task;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Controller {
     private TaskManagement taskManagement;
@@ -24,6 +27,14 @@ public class Controller {
         view.getAddEmployeeButton().addActionListener(e->addEmployeeDialog());
         view.getAddTaskButton().addActionListener(e-> addTaskDialog());
         view.getViewStatisticsButton().addActionListener(e->viewStatistics());
+        view.getViewEmployeeButton().addActionListener(e-> new EmployeeView(taskManagement).setVisible(true));
+        view.getSaveDataButton().addActionListener(e-> SerializationOperations.saveEverything(taskManagement.getMapTaskEmployee(),taskManagement.getEmployeeList(),taskManagement.getTaskList()));
+
+        view.getTaskTable().addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                modifyStatusByClick();
+            }
+        });
 
     }
     private void populateTable() {
@@ -54,12 +65,23 @@ public class Controller {
         taskManagement.assignWorkToEmployee(employee.getIdEmployee(), task);
         view.showMessage("TASK ASSIGNED TO EMPLOYEE " +employee.getName());
     }
-//    private void modifyStatusByClick()
-//    {
-//        int taskRow = view.getTaskTable().getSelectedRow();
-//        Task task = taskManagement.getTaskList().get(taskRow);
-//        taskManagement.modifyTaskStatus(task.getIdTask());
-//    }
+    private void modifyStatusByClick()
+    {
+        int taskRow = view.getTaskTable().getSelectedRow();
+
+        Task task = taskManagement.getTaskList().get(taskRow);
+        int idTask = task.getIdTask();
+
+        Employee employee = taskManagement.findEmployeeByTask(idTask);
+
+        if(employee == null)
+        {
+            view.showMessage("The task is not assigned");
+            return;
+        }
+        taskManagement.modifyTaskStatus(employee.getIdEmployee(), task.getIdTask());
+        updateTaskTable();
+   }
     private void addEmployeeDialog(){
         String[] input = view.showAddEmployeeDialog();
         if(input == null)
