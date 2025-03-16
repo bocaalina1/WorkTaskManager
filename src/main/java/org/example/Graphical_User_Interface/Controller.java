@@ -1,6 +1,7 @@
 package org.example.Graphical_User_Interface;
 
 import org.example.Business_Logic.TaskManagement;
+import org.example.Business_Logic.Utility;
 import org.example.Data_Access.SerializationOperations;
 import org.example.Data_Model.ComplexTask;
 import org.example.Data_Model.Employee;
@@ -11,8 +12,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Controller {
     private TaskManagement taskManagement;
@@ -28,7 +29,7 @@ public class Controller {
         view.getAddEmployeeButton().addActionListener(e->addEmployeeDialog());
         view.getAddSimpleTaskButton().addActionListener(e-> addSimpleTaskDialog());
         view.getViewStatisticsButton().addActionListener(e->viewStatistics());
-        view.getViewEmployeeButton().addActionListener(e-> new EmployeeView(taskManagement).setVisible(true));
+        view.getViewEmployeeButton().addActionListener(e->viewEmployeeWorkSummary());
         view.getSaveDataButton().addActionListener(e-> SerializationOperations.saveEverything(taskManagement.getMapTaskEmployee(),taskManagement.getTaskList()));
         view.getAddComplexTaskButton().addActionListener(e->showAddComplexTaskDialog());
         view.getTaskTable().addMouseListener(new MouseAdapter() {
@@ -159,7 +160,51 @@ public class Controller {
         }
     }
     public void viewStatistics() {
+        List<String> namesOfEmployeeWhoWorkMoreThan40h = Utility.employeeWhoWorkMoreThan40H(taskManagement);
+        StringBuilder sb = new StringBuilder(" *** Task Statistics ***\n\n\n");
 
+        sb.append("# Employee who work more then 40H \n");
+        if(!namesOfEmployeeWhoWorkMoreThan40h.isEmpty()) {
+            for (String name : namesOfEmployeeWhoWorkMoreThan40h)
+                sb.append(" ").append(name).append("\n");
+        }
+        else sb.append("No one works 40h");
+
+        Map<String, Map<String, Integer>>nbOfTask = Utility.nbOfCompletedAndUncompledTaskPerEmployee(taskManagement);
+
+        sb.append("\n\n" +
+                "Employee and their situation with task \n");
+        for(Map.Entry<String, Map<String, Integer>> entry : nbOfTask.entrySet())
+        {
+            sb.append("** Employee: ").append(entry.getKey()).append("\n");
+            sb.append("     * Task Completed ").append(entry.getValue().getOrDefault("Completed",0)).append("\n");
+            sb.append("     * Task Uncompleted ").append(entry.getValue().getOrDefault("Uncompleted",0)).append("\n")
+                    .append("\n\n\n");
+        }
+        new InfoView("Work Statistics", sb.toString()).setVisible(true);
+    }
+    public void viewEmployeeWorkSummary() {
+        StringBuilder sb = new StringBuilder("**** Work Summary ****\n\n\n");
+
+        for(Employee employee: taskManagement.getMapTaskEmployee().keySet())
+        {
+            int duration = taskManagement.calculateEmployeeWorkDuration(employee.getIdEmployee());
+            List<Task> task = taskManagement.getTaskListForEmployee(employee);
+
+            sb.append("***").append(employee.getName()).append(" ID : " + employee.getIdEmployee()).append(" \n")
+                    .append("        ** Total work duration : " + duration + "hours ").append("\n")
+                    .append("            * Task Assinged : \n");
+            if(task.isEmpty())
+            {
+                sb.append(" -> No tasks assigned\n");
+            }
+            else {
+                for(Task task1 : task)
+                    sb.append(task1).append("\n");
+            }
+            sb.append("\n");
+        }
+        new InfoView("Employee Work Summary", sb.toString()).setVisible(true);
     }
     public void updateTaskTable() {
         DefaultTableModel taskModel = (DefaultTableModel) view.getTaskTable().getModel();

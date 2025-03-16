@@ -32,8 +32,9 @@ public class AddComplexTaskDialog extends JDialog {
     private void initComponent() {
         idFiled = new JTextField(10);
         taskPanel = new JPanel();
-        cancelButton = new JButton("Cancel");
         okButton = new JButton("OK");
+        cancelButton = new JButton("Cancel");
+
     }
     private void layoutComponent() {
         setLayout(new BorderLayout());
@@ -46,8 +47,8 @@ public class AddComplexTaskDialog extends JDialog {
         scrollPane.setPreferredSize(new Dimension(400, 300));
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.add(cancelButton);
         buttonPanel.add(okButton);
+        buttonPanel.add(cancelButton);
 
         add(panel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
@@ -70,6 +71,8 @@ public class AddComplexTaskDialog extends JDialog {
 
             taskPanel.add(checkBoxButton);
         }
+        taskPanel.revalidate();
+        taskPanel.repaint();
     }
     private List<Task> getAvailableTasks() {
         List<Task> availableTasks = new ArrayList<>();
@@ -83,9 +86,14 @@ public class AddComplexTaskDialog extends JDialog {
     private void addComplexTask() {
         try{
             int complexTaskId = Integer.parseInt(idFiled.getText());
-            List<Task> availableTasks = getAvailableTasks();
-            taskManagement.addComplexTask(complexTaskId, availableTasks);
+            List<Task> selectedTasks = getUnassignedTask();
+            if(selectedTasks.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please select at least one task to add", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            taskManagement.addComplexTask(complexTaskId, selectedTasks);
             controller.updateTaskTable();
+            dispose();
         }catch (NumberFormatException e){
             JOptionPane.showMessageDialog(this, "Please enter a valid task ID", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -93,7 +101,7 @@ public class AddComplexTaskDialog extends JDialog {
     private List<Task> getUnassignedTask() {
         List<Task> unassignedTasks = new ArrayList<>();
         for (Component component : taskPanel.getComponents()) {
-            if (component instanceof JRadioButton) {
+            if (component instanceof JCheckBox) {
                 JCheckBox checkBoxButton = (JCheckBox) component;
                 if (checkBoxButton.isSelected()) {
                     int taskId = Integer.parseInt(checkBoxButton.getActionCommand());
