@@ -9,6 +9,12 @@ import java.util.*;
 public class Utility {
 
     public static List<String> employeeWhoWorkMoreThan40H(TaskManagement taskManagement) {
+       List<Employee> employeeWhoWorkMoreThan40H = getEmployeeWhoWorkMoreThan40H(taskManagement);
+       Collections.sort(employeeWhoWorkMoreThan40H, Comparator.comparing(employee1 -> taskManagement.calculateEmployeeWorkDuration(employee1.getIdEmployee())) );
+
+        return getNamesOfEmployeeWhoWorkMoreThan40H(employeeWhoWorkMoreThan40H);
+    }
+    public static List<Employee> getEmployeeWhoWorkMoreThan40H(TaskManagement taskManagement) {
         List<Employee> employeeWhoWorkMoreThan40H = new ArrayList<>();
 
         for(Employee employee: taskManagement.getMapTaskEmployee().keySet()) {
@@ -18,14 +24,14 @@ public class Utility {
                 employeeWhoWorkMoreThan40H.add(employee);
             }
         }
-            Collections.sort(employeeWhoWorkMoreThan40H, Comparator.comparing(employee1 -> taskManagement.calculateEmployeeWorkDuration(employee1.getIdEmployee())) );
-
-            List<String> employeeWhoWorkMoreThan40HString = new ArrayList<>();
-            for (Employee employee2: employeeWhoWorkMoreThan40H)
-            {
-                employeeWhoWorkMoreThan40HString.add("Name "+ employee2.getName() + " ID:" + employee2.getIdEmployee());
-            }
-
+        return employeeWhoWorkMoreThan40H;
+    }
+    public static List<String> getNamesOfEmployeeWhoWorkMoreThan40H(List<Employee> employeeWhoWorkMoreThan40H) {
+        List<String> employeeWhoWorkMoreThan40HString = new ArrayList<>();
+        for (Employee employee2: employeeWhoWorkMoreThan40H)
+        {
+            employeeWhoWorkMoreThan40HString.add("Name "+ employee2.getName() + " ID:" + employee2.getIdEmployee());
+        }
         return employeeWhoWorkMoreThan40HString;
     }
 
