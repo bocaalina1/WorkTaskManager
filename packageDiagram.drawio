@@ -1,0 +1,52 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36 Edg/134.0.0.0" version="26.1.1">
+  <diagram name="Page-1" id="Evf5fPVZoyt79oJUnzEe">
+    <mxGraphModel dx="1860" dy="4216" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="YbKXg2E7LxXuC9PrixkG-1" value="Graphical User Interface" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="-174" y="-2034" width="136" height="103" as="geometry" />
+        </mxCell>
+        <mxCell id="YbKXg2E7LxXuC9PrixkG-2" value="Business Logic" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="-169" y="-1866" width="131" height="107" as="geometry" />
+        </mxCell>
+        <mxCell id="YbKXg2E7LxXuC9PrixkG-3" value="Data Acces" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="-174" y="-1667" width="135" height="134" as="geometry" />
+        </mxCell>
+        <mxCell id="YbKXg2E7LxXuC9PrixkG-4" value="Data Models" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="103" y="-1880" width="175" height="144" as="geometry" />
+        </mxCell>
+        <mxCell id="YbKXg2E7LxXuC9PrixkG-5" value="" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;fontSize=12;curved=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="YbKXg2E7LxXuC9PrixkG-2" target="YbKXg2E7LxXuC9PrixkG-3">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="-64" y="-1692" as="sourcePoint" />
+            <mxPoint x="96" y="-1692" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YbKXg2E7LxXuC9PrixkG-6" value="" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;fontSize=12;curved=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.512;entryY=0.134;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="YbKXg2E7LxXuC9PrixkG-1" target="YbKXg2E7LxXuC9PrixkG-2">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="36" y="-1837" as="sourcePoint" />
+            <mxPoint x="196" y="-1837" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YbKXg2E7LxXuC9PrixkG-7" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;fontSize=12;curved=1;exitX=0;exitY=0;exitDx=135;exitDy=44;exitPerimeter=0;" edge="1" parent="1" source="YbKXg2E7LxXuC9PrixkG-3">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="36" y="-1837" as="sourcePoint" />
+            <mxPoint x="100" y="-1749" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YbKXg2E7LxXuC9PrixkG-8" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;fontSize=12;curved=1;exitX=0;exitY=0;exitDx=131;exitDy=60.5;exitPerimeter=0;" edge="1" parent="1" source="YbKXg2E7LxXuC9PrixkG-2" target="YbKXg2E7LxXuC9PrixkG-4">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="36" y="-1837" as="sourcePoint" />
+            <mxPoint x="196" y="-1837" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YbKXg2E7LxXuC9PrixkG-9" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;fontSize=12;curved=1;exitX=0;exitY=0;exitDx=136;exitDy=58.5;exitPerimeter=0;entryX=0;entryY=0;entryDx=0;entryDy=14;entryPerimeter=0;" edge="1" parent="1" source="YbKXg2E7LxXuC9PrixkG-1" target="YbKXg2E7LxXuC9PrixkG-4">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="36" y="-1837" as="sourcePoint" />
+            <mxPoint x="196" y="-1837" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

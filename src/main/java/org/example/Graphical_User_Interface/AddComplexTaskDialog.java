@@ -107,7 +107,9 @@ public class AddComplexTaskDialog extends JDialog {
                     int taskId = Integer.parseInt(checkBoxButton.getActionCommand());
                     Task task = taskManagement.getTaskById(taskId);
                     if (task!=null) {
+                        task.setAssigned(true);
                         unassignedTasks.add(task);
+
                     }
                 }
             }

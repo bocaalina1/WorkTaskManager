@@ -35,17 +35,17 @@ public class Main {
 
             Task task1 = new SimpleTask(1,20,2);
             Task task2 = new SimpleTask(2,8,14);
-            ComplexTask task3 = new ComplexTask(40);
-            task3.addTask(task1);
-            task3.addTask(task2);
+           // ComplexTask task3 = new ComplexTask(40);
+           // task3.addTask(task1);
+            //task3.addTask(task2);
             taskManagement.getTaskList().add(task1);
             taskManagement.getTaskList().add(task2);
-            taskManagement.getTaskList().add(task3);
+            //taskManagement.getTaskList().add(task3);
 
-            taskManagement.assignWorkToEmployee(101,task1);
-            taskManagement.assignWorkToEmployee(102,task2);
-            taskManagement.assignWorkToEmployee(101,task2);
-            taskManagement.assignWorkToEmployee(101,task1);
+            taskManagement.assignTaskToEmployee(101,task1);
+            taskManagement.assignTaskToEmployee(102,task2);
+            //taskManagement.assignTaskToEmployee(101,task2);
+            //taskManagement.assignTaskToEmployee(101,task1);
 
         }
 

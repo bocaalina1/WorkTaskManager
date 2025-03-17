@@ -30,7 +30,7 @@ public class Controller {
         view.getAddSimpleTaskButton().addActionListener(e-> addSimpleTaskDialog());
         view.getViewStatisticsButton().addActionListener(e->viewStatistics());
         view.getViewEmployeeButton().addActionListener(e->viewEmployeeWorkSummary());
-        view.getSaveDataButton().addActionListener(e-> SerializationOperations.saveEverything(taskManagement.getMapTaskEmployee(),taskManagement.getTaskList()));
+        //view.getSaveDataButton().addActionListener(e-> SerializationOperations.saveEverything(taskManagement.getMapTaskEmployee(),taskManagement.getTaskList()));
         view.getAddComplexTaskButton().addActionListener(e->showAddComplexTaskDialog());
         view.getTaskTable().addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -77,7 +77,7 @@ public class Controller {
         }
         Task task = taskManagement.getTaskList().get(taskRow);
 
-        taskManagement.assignWorkToEmployee(id, task);
+        taskManagement.assignTaskToEmployee(id, task);
         SerializationOperations.saveMap(taskManagement.getMapTaskEmployee());
         view.showMessage("TASK ASSIGNED TO EMPLOYEE " +employee.getName());
     }
@@ -95,14 +95,11 @@ public class Controller {
             view.showMessage("The task is not assigned");
             return;
         }
-        Task employeeTask = taskManagement.searchTask(employee.getIdEmployee(), idTask);
-        if(employeeTask == null)
-        {
-            view.showMessage("Task found in map, but not in this employee list");
-            return;
-        }
-        taskManagement.swappStatus(employeeTask);
-        task.setStatusTask(employeeTask.getStatusTask());
+        taskManagement.modifyTaskStatus(employee.getIdEmployee(), idTask);
+
+        Task updatedTask = taskManagement.searchTask(employee.getIdEmployee(), idTask);
+        if(updatedTask != null)
+            task.setStatusTask(updatedTask.getStatusTask());
 
         SerializationOperations.saveTaskInMemory(taskManagement.getTaskList());
         SerializationOperations.saveMap(taskManagement.getMapTaskEmployee());

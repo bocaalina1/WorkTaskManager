@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class ComplexTask  extends Task implements Serializable {
     private static final long serialVersionUID = 1L;
-    ArrayList<Task> tasks;
+    private ArrayList<Task> tasks;
 
     public ComplexTask(int idTask) {
         super(idTask, "Uncompleted");

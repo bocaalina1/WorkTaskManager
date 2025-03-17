@@ -8,8 +8,7 @@ public class View extends JFrame {
     private JButton bAddSimpleTask;
     private JButton bAddComplexTask;
     private JButton bAssignedTask;
-    private JButton bSaveData;
-    //private JTextArea textArea = new JTextArea();
+    //private JButton bSaveData;
     private JButton bViewEmployee;
     private JButton bViewStatistics;
     private JTable employeeTable;
@@ -32,14 +31,13 @@ public class View extends JFrame {
       taskTable = new JTable( new DefaultTableModel(new Object[]{"ID Task", "Status","Type","Assigned","Specifications"},0 ));
       setSizesTask(taskTable);
       JScrollPane taskScrollPane = new JScrollPane(taskTable);
-
       bAssignedTask = new JButton("Assigned Task");
       bAddSimpleTask = new JButton("Add Simple Task");
       bAddComplexTask = new JButton("Add Complex Task");
       bAddEmployee = new JButton("Add Employee");
       bViewEmployee = new JButton("View Employee");
       bViewStatistics = new JButton("View Statistics");
-      bSaveData = new JButton("Save Changes");
+      //bSaveData = new JButton("Save Changes");
 
       JPanel tablePanel = new JPanel(new BorderLayout());
       employeeScrollPane.setPreferredSize(new Dimension(300, 0));
@@ -60,7 +58,7 @@ public class View extends JFrame {
 
     }
 
-    public void setSizesTask(JTable table)
+    private void setSizesTask(JTable table)
     {
         table.getColumnModel().getColumn(0).setPreferredWidth(20);
         table.getColumnModel().getColumn(1).setPreferredWidth(40);
@@ -95,9 +93,7 @@ public class View extends JFrame {
     public JButton getViewStatisticsButton() {
         return bViewStatistics;
     }
-    public JButton getSaveDataButton() {
-        return bSaveData;
-    }
+
 
     public String[] showAddEmployeeDialog()
     {

@@ -115,7 +115,7 @@ public class TaskManagement implements Serializable {
         }
         return duration;
     }
-    public void assignWorkToEmployee(int idEmployee,Task task) {
+    public void assignTaskToEmployee(int idEmployee, Task task) {
         Employee employee = getEmployeeById(idEmployee);
         if (employee == null)
         {
